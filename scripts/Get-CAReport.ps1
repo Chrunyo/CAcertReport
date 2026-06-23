@@ -42,7 +42,13 @@ if (-not (Test-Path $OutputPath)) {
 }
 
 $sinceDate = (Get-Date).AddDays(-[Math]::Abs($DaysBack))
-$sinceStr  = $sinceDate.ToString('MM/dd/yyyy')
+# certutil parses -restrict dates using the host's regional settings, so the
+# string must match the system short-date format. NOTE: '/' in a .NET format
+# string is the culture-dependent separator placeholder, not a literal slash --
+# 'MM/dd/yyyy' on cs-CZ renders as "06.23.2026" (month-first, dot-separated),
+# which certutil reads as day 06 / month 23 -> 0x80070057 (E_INVALIDARG).
+# The 'd' standard format yields the current culture's short date (e.g. dd.MM.yyyy).
+$sinceStr  = $sinceDate.ToString('d', [Globalization.CultureInfo]::CurrentCulture)
 
 # certutil writes localized strings (e.g. dates) using the console code page.
 # Force UTF-8 so non-ASCII names (RequesterName, CommonName) survive the round trip.
@@ -68,11 +74,16 @@ function Invoke-CertView {
         $_ -and ($_ -notmatch '^CertUtil:') -and ($_ -notmatch '^\s*$')
     }
 
-    if ($exit -ne 0 -and $lines.Count -lt 2) {
-        Write-Warning "certutil returned exit code $exit for restrict '$Restrict'."
-        return @()
+    if ($exit -ne 0) {
+        # Surface certutil's own diagnostic lines (the "CertUtil: ..." text and
+        # the hex/decimal error code) so failures are actionable, then fail hard.
+        $detail = (@($raw) | ForEach-Object { "$_" } | Where-Object { $_ -match '\S' }) -join [Environment]::NewLine
+        $hex    = '0x{0:x8}' -f $exit
+        throw ("certutil failed (exit {0} / {1}) for restrict '{2}'.{3}{4}" -f `
+            $exit, $hex, $Restrict, [Environment]::NewLine, $detail)
     }
 
+    # Exit 0 but no data rows (only a header, or nothing) -> a legitimately empty result.
     if ($lines.Count -lt 2) { return @() }
 
     try {
