@@ -1,0 +1,227 @@
+:root {
+    --fg: #1f2933;
+    --muted: #647280;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --border: #d8dee5;
+    --accent: #2453a6;
+    --accent-soft: #e6efff;
+    --danger: #b3261e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    font-size: 14px;
+}
+
+header {
+    padding: 16px 24px 8px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.meta {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 24px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.tab {
+    background: transparent;
+    border: 0;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+}
+
+.tab .count {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.toolbar .spacer { flex: 1; }
+
+.toolbar input[type="search"] {
+    flex: 0 0 320px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.toolbar button {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.toolbar button:hover { background: var(--accent-soft); }
+
+.row-status {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+main { padding: 16px 24px 32px; }
+
+.table-scroll {
+    overflow: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    max-height: calc(100vh - 220px);
+}
+
+table#data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+#data-table th, #data-table td {
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+#data-table thead th {
+    background: #eef2f7;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    cursor: pointer;
+    user-select: none;
+}
+
+#data-table thead th.sort-asc::after  { content: " \25B2"; font-size: 10px; color: var(--accent); }
+#data-table thead th.sort-desc::after { content: " \25BC"; font-size: 10px; color: var(--accent); }
+
+.filter-row th {
+    cursor: default;
+    background: #f6f8fb !important;
+    position: sticky;
+    top: 28px;
+    z-index: 1;
+    padding: 4px 6px;
+}
+
+.filter-row input {
+    width: 100%;
+    padding: 3px 6px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+#data-table tbody tr:nth-child(even) { background: #fafbfc; }
+#data-table tbody tr:hover { background: var(--accent-soft); }
+
+.empty-state {
+    margin: 24px 0;
+    color: var(--muted);
+    text-align: center;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+}
+
+.card h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    color: var(--accent);
+}
+
+table.kv {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table.kv th, table.kv td {
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+table.kv th {
+    font-weight: 500;
+    color: var(--muted);
+    width: 60%;
+}
+
+table.kv td { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Print styling: show only the summary view */
+@media print {
+    .screen-only { display: none !important; }
+    body { background: #fff; }
+    main { padding: 0; }
+    #view-table { display: none !important; }
+    #view-summary { display: block !important; }
+    .card { break-inside: avoid; border-color: #bbb; }
+    .summary-grid { grid-template-columns: 1fr 1fr; }
+    h2::before {
+        content: "CA Certificate Report — Summary";
+        display: block;
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+    h2 { font-size: 0; }
+}

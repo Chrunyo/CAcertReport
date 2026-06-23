@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CA Certificate Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="screen-only">
+        <h1>CA Certificate Report</h1>
+        <div class="meta">
+            <span id="meta-ca">CA: &mdash;</span>
+            <span id="meta-window">Window: &mdash;</span>
+            <span id="meta-generated">Generated: &mdash;</span>
+        </div>
+    </header>
+
+    <nav class="tabs screen-only">
+        <button class="tab active" data-view="issued">Issued <span class="count" id="count-issued">0</span></button>
+        <button class="tab" data-view="failed">Failed / Denied <span class="count" id="count-failed">0</span></button>
+        <button class="tab" data-view="summary">Summary</button>
+    </nav>
+
+    <section class="toolbar screen-only" id="toolbar">
+        <input type="search" id="search" placeholder="Search all columns&hellip;" autocomplete="off">
+        <button id="clear-filters" type="button">Clear filters</button>
+        <span class="spacer"></span>
+        <span id="row-status" class="row-status">0 of 0 rows</span>
+        <button id="export-csv" type="button">Export CSV</button>
+        <button id="export-pdf" type="button">Print / Save PDF</button>
+    </section>
+
+    <main>
+        <div id="view-table" class="view">
+            <div class="table-scroll">
+                <table id="data-table">
+                    <thead>
+                        <tr id="header-row"></tr>
+                        <tr id="filter-row" class="filter-row"></tr>
+                    </thead>
+                    <tbody id="data-body"></tbody>
+                </table>
+            </div>
+            <p id="empty-state" class="empty-state" hidden>No records match the current filters.</p>
+        </div>
+
+        <div id="view-summary" class="view" hidden>
+            <h2>Summary</h2>
+            <div class="summary-grid">
+                <section class="card">
+                    <h3>Totals</h3>
+                    <table class="kv">
+                        <tr><th>Issued</th><td id="sum-issued">0</td></tr>
+                        <tr><th>Failed / Denied</th><td id="sum-failed">0</td></tr>
+                        <tr><th>Unique requesters</th><td id="sum-requesters">0</td></tr>
+                        <tr><th>Unique templates</th><td id="sum-templates">0</td></tr>
+                        <tr><th>Reporting window</th><td id="sum-window">&mdash;</td></tr>
+                    </table>
+                </section>
+
+                <section class="card">
+                    <h3>Issued by template</h3>
+                    <table class="kv" id="sum-by-template"><tbody></tbody></table>
+                </section>
+
+                <section class="card">
+                    <h3>Issued by month</h3>
+                    <table class="kv" id="sum-by-month"><tbody></tbody></table>
+                </section>
+
+                <section class="card">
+                    <h3>Top requesters</h3>
+                    <table class="kv" id="sum-by-requester"><tbody></tbody></table>
+                </section>
+
+                <section class="card">
+                    <h3>Failure reasons</h3>
+                    <table class="kv" id="sum-by-failure"><tbody></tbody></table>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="data/data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
