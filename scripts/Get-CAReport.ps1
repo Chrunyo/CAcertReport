@@ -98,7 +98,9 @@ function Invoke-CertView {
 function ConvertTo-IsoDate {
     param([string]$Value)
     if ([string]::IsNullOrWhiteSpace($Value)) { return $null }
-    $dt = $null
+    # Pre-type the ByRef target: with $null PowerShell 7 (.NET Core) cannot
+    # resolve between the String and ReadOnlySpan<char> TryParse overloads.
+    [datetime]$dt = 0
     if ([DateTime]::TryParse($Value, [Globalization.CultureInfo]::InvariantCulture,
             [Globalization.DateTimeStyles]::AssumeLocal, [ref]$dt)) {
         return $dt.ToUniversalTime().ToString('o')
