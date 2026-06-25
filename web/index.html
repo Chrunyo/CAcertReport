@@ -42,6 +42,24 @@
                 </table>
             </div>
             <p id="empty-state" class="empty-state" hidden>No records match the current filters.</p>
+
+            <div class="pager screen-only" id="pager">
+                <label class="page-size-label">Rows per page
+                    <select id="page-size">
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="0">All</option>
+                    </select>
+                </label>
+                <span class="spacer"></span>
+                <button id="page-first" type="button" title="First page">&laquo;</button>
+                <button id="page-prev" type="button" title="Previous page">&lsaquo; Prev</button>
+                <span id="page-info" class="page-info">Page 1 of 1</span>
+                <button id="page-next" type="button" title="Next page">Next &rsaquo;</button>
+                <button id="page-last" type="button" title="Last page">&raquo;</button>
+            </div>
         </div>
 
         <div id="view-summary" class="view" hidden>

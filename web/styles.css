@@ -152,12 +152,43 @@ table#data-table {
     padding: 4px 6px;
 }
 
-.filter-row input {
+.filter-row input,
+.filter-row select {
     width: 100%;
     padding: 3px 6px;
     border: 1px solid var(--border);
     border-radius: 3px;
     font-size: 12px;
+    background: var(--card);
+    color: var(--fg);
+}
+
+.filter-row select { cursor: pointer; }
+
+/* date range filter: two stacked native date pickers */
+.date-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.date-filter label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.date-filter label span {
+    flex: 0 0 28px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.date-filter input[type="date"] {
+    flex: 1;
+    min-width: 0;
 }
 
 #data-table tbody tr:nth-child(even) { background: #fafbfc; }
@@ -166,6 +197,60 @@ table#data-table {
 .empty-state {
     margin: 24px 0;
     color: var(--muted);
+    text-align: center;
+}
+
+.pager {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.pager .spacer { flex: 1; }
+
+.pager .page-size-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+}
+
+.pager select {
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    background: var(--card);
+    color: var(--fg);
+    cursor: pointer;
+}
+
+.pager button {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.pager button:hover:not(:disabled) { background: var(--accent-soft); }
+
+.pager button:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.pager .page-info {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 110px;
     text-align: center;
 }
 
